@@ -10,7 +10,7 @@ resource "spacelift_policy" "access" {
   type = "ACCESS"
 
   name = "All of Engineering gets read access"
-  body = file("${path.module}/policies/access.rego")
+  body = file("${path.module}/policies/access2.rego")
 }
 
 # Access policies only take effect when attached to the stack.
@@ -31,7 +31,7 @@ resource "spacelift_policy" "plan" {
   type = "PLAN"
 
   name = "Enforce password strength"
-  body = file("${path.module}/policies/plan.rego")
+  body = file("${path.module}/policies/plan2.rego")
 }
 
 # Plan policies only take effect when attached to the stack.
@@ -54,7 +54,7 @@ resource "spacelift_policy" "push" {
   type = "GIT_PUSH"
 
   name = "Ignore commits outside the project root"
-  body = file("${path.module}/policies/push.rego")
+  body = file("${path.module}/policies/push2.rego")
 }
 
 # Push policies only take effect when attached to the stack.
@@ -74,7 +74,7 @@ resource "spacelift_policy" "task" {
   type = "TASK"
 
   name = "Allow only safe commands"
-  body = file("${path.module}/policies/task.rego")
+  body = file("${path.module}/policies/task2.rego")
 }
 
 # Task policies only take effect when attached to the stack.
@@ -95,7 +95,7 @@ resource "spacelift_policy" "trigger" {
   type = "TRIGGER"
 
   name = "Trigger stacks that declare an explicit dependency"
-  body = file("${path.module}/policies/trigger.rego")
+  body = file("${path.module}/policies/trigger2.rego")
 }
 
 # Trigger policies only take effect when attached to the stack.
@@ -126,5 +126,5 @@ resource "spacelift_policy" "login" {
   type = "LOGIN"
 
   name = "DevOps are admins"
-  body = file("${path.module}/policies/login.rego")
+  body = file("${path.module}/policies/login2.rego")
 }
