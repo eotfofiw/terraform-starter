@@ -43,7 +43,7 @@ resource "random_password" "context-password2" {
 resource "spacelift_environment_variable" "context-writeonly2" {
   context_id = spacelift_context.managed2.id
   name       = "CONTEXT_SECRET"
-  value      = random_password.context-password.result
+  value      = random_password.context-password2.result
 }
 
 # Apart from setting environment variables in your Contexts, you can add files
@@ -57,7 +57,7 @@ resource "spacelift_mounted_file" "context-plaintext-file2" {
   context_id    = spacelift_context.managed2.id
   relative_path = "context-plaintext-file.json"
   content = base64encode(jsonencode({
-    payload = spacelift_environment_variable.context-plaintext.value
+    payload = spacelift_environment_variable.context-plaintext2.value
   }))
   write_only = false
 }
@@ -68,7 +68,7 @@ resource "spacelift_mounted_file" "context-plaintext-file2" {
 resource "spacelift_mounted_file" "context-secret-file2" {
   context_id    = spacelift_context.managed2.id
   relative_path = "context-secret-password.json"
-  content       = base64encode(jsonencode({ password = random_password.context-password.result }))
+  content       = base64encode(jsonencode({ password = random_password.context-password2.result }))
 }
 
 # This resource attaches context to a Stack. Since this is many-to-many
