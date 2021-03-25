@@ -108,7 +108,7 @@ resource "spacelift_policy_attachment" "trigger2" {
 # triggered, too.
 resource "spacelift_policy_attachment" "trigger-self2" {
   policy_id = spacelift_policy.trigger2.id
-  stack_id  = data.spacelift_current_stack.this.id
+  stack_id  = data.spacelift_current_stack.this2.id
 }
 
 # LOGIN POLICY
