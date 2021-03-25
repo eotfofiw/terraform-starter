@@ -19,7 +19,7 @@ resource "spacelift_context" "managed2" {
 #
 # https://docs.spacelift.io/concepts/environment#environment-variables
 resource "spacelift_environment_variable" "context-plaintext2" {
-  context_id = spacelift_context.managed.id
+  context_id = spacelift_context.managed2.id
   name       = "CONTEXT_PUBLIC_2"
   value      = "This should be visible!"
   write_only = false
@@ -41,7 +41,7 @@ resource "random_password" "context-password2" {
 # If you accidentally print it out to the logs, no worries: we will obfuscate
 # every secret thing we know of.
 resource "spacelift_environment_variable" "context-writeonly2" {
-  context_id = spacelift_context.managed.id
+  context_id = spacelift_context.managed2.id
   name       = "CONTEXT_SECRET"
   value      = random_password.context-password.result
 }
@@ -54,7 +54,7 @@ resource "spacelift_environment_variable" "context-writeonly2" {
 #
 # https://docs.spacelift.io/concepts/environment#mounted-files
 resource "spacelift_mounted_file" "context-plaintext-file2" {
-  context_id    = spacelift_context.managed.id
+  context_id    = spacelift_context.managed2.id
   relative_path = "context-plaintext-file.json"
   content = base64encode(jsonencode({
     payload = spacelift_environment_variable.context-plaintext.value
@@ -66,7 +66,7 @@ resource "spacelift_mounted_file" "context-plaintext-file2" {
 # like we just did that for the read-write one, we'll need to retrieve the value
 # of the password directly from its resource.
 resource "spacelift_mounted_file" "context-secret-file2" {
-  context_id    = spacelift_context.managed.id
+  context_id    = spacelift_context.managed2.id
   relative_path = "context-secret-password.json"
   content       = base64encode(jsonencode({ password = random_password.context-password.result }))
 }
@@ -80,7 +80,7 @@ resource "spacelift_mounted_file" "context-secret-file2" {
 #
 # https://docs.spacelift.io/concepts/context#attaching-and-detaching
 resource "spacelift_context_attachment" "managed" {
-  context_id = spacelift_context.managed.id
-  stack_id   = spacelift_stack.managed.id
+  context_id = spacelift_context.managed2.id
+  stack_id   = spacelift_stack.managed2.id
   priority   = 0
 }
