@@ -51,7 +51,7 @@ resource "spacelift_environment_variable" "stack-writeonly2" {
 # Apart from setting environment variables on your Stacks, you can mount files
 # directly in Spacelift's workspace. Let's retrieve the list of Spacelift's
 # outgoing addresses and store it as a JSON file.
-data "spacelift_ips" "ips" {}
+data "spacelift_ips" "ips2" {}
 
 # This mounted file contains a JSON-encoded list of Spacelift's outgoing IPs.
 # Note how we explicitly set the "write_only" bit for this file to "false".
