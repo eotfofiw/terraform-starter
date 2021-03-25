@@ -15,8 +15,8 @@ resource "spacelift_policy" "access2" {
 
 # Access policies only take effect when attached to the stack.
 resource "spacelift_policy_attachment" "access2" {
-  policy_id = spacelift_policy.access.id
-  stack_id  = spacelift_stack.managed.id
+  policy_id = spacelift_policy.access2.id
+  stack_id  = spacelift_stack.managed2.id
 }
 
 # PLAN POLICY
@@ -36,8 +36,8 @@ resource "spacelift_policy" "plan2" {
 
 # Plan policies only take effect when attached to the stack.
 resource "spacelift_policy_attachment" "plan2" {
-  policy_id = spacelift_policy.plan.id
-  stack_id  = spacelift_stack.managed.id
+  policy_id = spacelift_policy.plan2.id
+  stack_id  = spacelift_stack.managed2.id
 }
 
 # PUSH POLICY
@@ -59,8 +59,8 @@ resource "spacelift_policy" "push2" {
 
 # Push policies only take effect when attached to the stack.
 resource "spacelift_policy_attachment" "push" {
-  policy_id = spacelift_policy.push.id
-  stack_id  = spacelift_stack.managed.id
+  policy_id = spacelift_policy.push2.id
+  stack_id  = spacelift_stack.managed2.id
 }
 
 # TASK POLICY
@@ -79,8 +79,8 @@ resource "spacelift_policy" "task2" {
 
 # Task policies only take effect when attached to the stack.
 resource "spacelift_policy_attachment" "task2" {
-  policy_id = spacelift_policy.task.id
-  stack_id  = spacelift_stack.managed.id
+  policy_id = spacelift_policy.task2.id
+  stack_id  = spacelift_stack.managed2.id
 }
 
 # TRIGGER POLICY
@@ -100,14 +100,14 @@ resource "spacelift_policy" "trigger2" {
 
 # Trigger policies only take effect when attached to the stack.
 resource "spacelift_policy_attachment" "trigger2" {
-  policy_id = spacelift_policy.trigger.id
-  stack_id  = spacelift_stack.managed.id
+  policy_id = spacelift_policy.trigger2.id
+  stack_id  = spacelift_stack.managed2.id
 }
 
 # Let's attach the policy to the current stack, so that the child stack is
 # triggered, too.
 resource "spacelift_policy_attachment" "trigger-self2" {
-  policy_id = spacelift_policy.trigger.id
+  policy_id = spacelift_policy.trigger2.id
   stack_id  = data.spacelift_current_stack.this.id
 }
 
