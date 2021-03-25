@@ -1,6 +1,6 @@
-data "spacelift_current_stack" "this" {}
+data "spacelift_current_stack" "this2" {}
 
-resource "spacelift_stack" "managed" {
+resource "spacelift_stack" "managed2" {
   name        = "Managed stack"
   description = "Your first stack managed by Terraform"
 
@@ -9,7 +9,7 @@ resource "spacelift_stack" "managed" {
   project_root = "managed-stack"
 
   autodeploy = true
-  labels     = ["managed", "depends-on:${data.spacelift_current_stack.this.id}"]
+  labels     = ["managed", "depends-on:${data.spacelift_current_stack.this2.id}"]
 }
 
 # This is an environment variable defined on the stack level. Stack-level
@@ -20,8 +20,8 @@ resource "spacelift_stack" "managed" {
 # You can read more about environment variables here:
 #
 # https://docs.spacelift.io/concepts/environment#environment-variables
-resource "spacelift_environment_variable" "stack-plaintext" {
-  stack_id   = spacelift_stack.managed.id
+resource "spacelift_environment_variable" "stack-plaintext2" {
+  stack_id   = spacelift_stack.managed2.id
   name       = "STACK_PUBLIC"
   value      = "This should be visible!"
   write_only = false
@@ -29,7 +29,7 @@ resource "spacelift_environment_variable" "stack-plaintext" {
 
 # For another (secret) variable, let's create programmatically create a super
 # secret password.
-resource "random_password" "stack-password" {
+resource "random_password" "stack-password2" {
   length  = 32
   special = true
 }
@@ -42,10 +42,10 @@ resource "random_password" "stack-password" {
 #
 # If you accidentally print it out to the logs, no worries: we will obfuscate
 # every secret thing we know of.
-resource "spacelift_environment_variable" "stack-writeonly" {
-  stack_id = spacelift_stack.managed.id
+resource "spacelift_environment_variable" "stack-writeonly2" {
+  stack_id = spacelift_stack.managed2.id
   name     = "STACK_SECRET"
-  value    = random_password.stack-password.result
+  value    = random_password.stack-password2.result
 }
 
 # Apart from setting environment variables on your Stacks, you can mount files
@@ -60,18 +60,18 @@ data "spacelift_ips" "ips" {}
 # You can read more about mounted files here: 
 #
 # https://docs.spacelift.io/concepts/environment#mounted-files
-resource "spacelift_mounted_file" "stack-plaintext-file" {
-  stack_id      = spacelift_stack.managed.id
+resource "spacelift_mounted_file" "stack-plaintext-file2" {
+  stack_id      = spacelift_stack.managed2.id
   relative_path = "stack-plaintext-ips.json"
-  content       = base64encode(jsonencode(data.spacelift_ips.ips.ips))
+  content       = base64encode(jsonencode(data.spacelift_ips.ips2.ips))
   write_only    = false
 }
 
 # Mounted-files can be write-only, too, and they are by default. The content of
 # write-only mounted files cannot be accessed neither from the GUI nor from the
 # GraphQL API.
-resource "spacelift_mounted_file" "stack-secret-file" {
-  stack_id      = spacelift_stack.managed.id
+resource "spacelift_mounted_file" "stack-secret-file2" {
+  stack_id      = spacelift_stack.managed2.id
   relative_path = "stack-secret-password.json"
-  content       = base64encode(jsonencode({ password = random_password.stack-password.result }))
+  content       = base64encode(jsonencode({ password = random_password.stack-password2.result }))
 }
