@@ -4,8 +4,8 @@
 # You can read about contexts here:
 #
 # https://docs.spacelift.io/concepts/context
-resource "spacelift_context" "managed" {
-  name        = "Managed context"
+resource "spacelift_context" "managed2" {
+  name        = "Managed context 2"
   description = "Your first context managed by Terraform"
 }
 
@@ -18,16 +18,16 @@ resource "spacelift_context" "managed" {
 # You can read more about environment variables here:
 #
 # https://docs.spacelift.io/concepts/environment#environment-variables
-resource "spacelift_environment_variable" "context-plaintext" {
+resource "spacelift_environment_variable" "context-plaintext2" {
   context_id = spacelift_context.managed.id
-  name       = "CONTEXT_PUBLIC"
+  name       = "CONTEXT_PUBLIC_2"
   value      = "This should be visible!"
   write_only = false
 }
 
 # For another (secret) variable, let's create programmatically create a super
 # secret password.
-resource "random_password" "context-password" {
+resource "random_password" "context-password2" {
   length  = 32
   special = true
 }
@@ -40,7 +40,7 @@ resource "random_password" "context-password" {
 #
 # If you accidentally print it out to the logs, no worries: we will obfuscate
 # every secret thing we know of.
-resource "spacelift_environment_variable" "context-writeonly" {
+resource "spacelift_environment_variable" "context-writeonly2" {
   context_id = spacelift_context.managed.id
   name       = "CONTEXT_SECRET"
   value      = random_password.context-password.result
@@ -53,7 +53,7 @@ resource "spacelift_environment_variable" "context-writeonly" {
 # You can read more about mounted files here: 
 #
 # https://docs.spacelift.io/concepts/environment#mounted-files
-resource "spacelift_mounted_file" "context-plaintext-file" {
+resource "spacelift_mounted_file" "context-plaintext-file2" {
   context_id    = spacelift_context.managed.id
   relative_path = "context-plaintext-file.json"
   content = base64encode(jsonencode({
@@ -65,7 +65,7 @@ resource "spacelift_mounted_file" "context-plaintext-file" {
 # Since you can't read back the value from a write-only environment variable
 # like we just did that for the read-write one, we'll need to retrieve the value
 # of the password directly from its resource.
-resource "spacelift_mounted_file" "context-secret-file" {
+resource "spacelift_mounted_file" "context-secret-file2" {
   context_id    = spacelift_context.managed.id
   relative_path = "context-secret-password.json"
   content       = base64encode(jsonencode({ password = random_password.context-password.result }))
